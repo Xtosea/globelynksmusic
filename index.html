@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Free MP3 Upload</title>
+</head>
+<body>
+  <h1>Upload MP3</h1>
+  <input type="file" id="fileInput" accept=".mp3" />
+  <button onclick="uploadMP3()">Upload</button>
+
+  <h2>Download</h2>
+  <ul id="fileList"></ul>
+
+  <script>
+    const apiBase = "/api"; // Workers route
+
+    async function uploadMP3() {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) return alert("Select a file");
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch(apiBase + "/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      alert(data.message);
+      listFiles();
+    }
+
+    async function listFiles() {
+      const res = await fetch(apiBase + "/list");
+      const files = await res.json();
+      const list = document.getElementById("fileList");
+      list.innerHTML = "";
+      files.forEach(f => {
+        const li = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = apiBase + "/download?file=" + encodeURIComponent(f.name);
+        link.innerText = f.name;
+        li.appendChild(link);
+        list.appendChild(li);
+      });
+    }
+
+    listFiles();
+  </script>
+</body>
+</html>
