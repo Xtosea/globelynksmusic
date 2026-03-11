@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎵 GlobelynksMusic</title>
+
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  font-family: Arial, sans-serif;
+  background:#f5f5f5;
+}
+
+.container {
+  max-width:600px;
+  margin:auto;
+  padding:15px;
+   /* space for mini player + footer */
+}
+
+h1 { text-align:center; margin-bottom:20px; }
+
+.card {
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+input, button {
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:16px;
+}
+
+button {
+  cursor:pointer;
+  background:black;
+  color:white;
+  border:none;
+}
+
+button:hover { opacity:0.85; }
+
+.premium button {
+  background:gold;
+  color:black;
+  font-weight:bold;
+}
+
+/* ===== TRENDING ===== */
+#trendingList li {
+  list-style:none;
+  margin-bottom:12px;
+  padding:10px;
+  border-radius:10px;
+  background:#fafafa;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:10px;
+}
+
+.trending-img {
+  width:170px;
+  height:170px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+.rank {
+  font-weight:bold;
+  font-size:14px;
+}
+
+.gold { color:gold; }
+.silver { color:silver; }
+.bronze { color:#cd7f32; }
+
+.new-tag {
+  background:red;
+  color:white;
+  padding:2px 6px;
+  border-radius:8px;
+  font-size:10px;
+  margin-left:5px;
+}
+
+/* ===== MUSIC LIST ===== */
+#musicList li {
+  list-style:none;
+  margin-bottom:12px;
+  padding:15px;
+  border-radius:12px;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:10px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.05);
+  transition:0.2s ease;
+}
+
+#musicList li:hover {
+  transform:translateY(-4px);
+}
+
+.music-img {
+  width:250px;
+  height:250px;
+  border-radius:12px;
+  object-fit:cover;
+}
+
+.music-info h3 {
+  font-size:20px;
+  margin-top:8px;
+}
+
+.music-info p {
+  font-size:20px;
+  color:#555;
+}
+
+.music-info button {
+  width:100%;
+  padding:10px;
+  font-size:14px;
+  border-radius:10px;
+  margin-top:5px;
+}
+
+/* ===== MINI PLAYER ===== */
+#miniPlayer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 600px;
+  background: #111;
+  color: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap:10px;
+  z-index: 1000;
+  border-top: 2px solid gold;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+}
+
+#miniPlayer img {
+  width:50px;
+  height:50px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+#miniPlayer span {
+  flex:1;
+  font-size:14px;
+  font-weight:bold;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+#miniPlayer button {
+  background:#222;
+  border:none;
+  color:white;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:14px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+#miniPlayer button:hover {
+  background:gold;
+  color:black;
+}
+/* ===== ADS ===== */
+.ad-box { 
+  margin:20px 0; 
+  text-align:center; 
+}
+
+.ad-box iframe, .ad-box ins, .ad-box div {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: auto;
+  display: block;
+}
+
+body {
+  padding-bottom:150px; /* prevents mini player overlap */
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: #111;
+  color: #fff;
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 13px;
+  border-top:2px solid gold;
+}
+
+.footer a {
+  color: white;
+  text-decoration: none;
+  margin: 0 5px;
+  transition:0.2s;
+}
+
+.footer a:hover {
+  color: gold;
+}
+
+/* ===== HERO AD ===== */
+.hero-ad {
+  width: 100%;
+  text-align: center;
+  background: #fff;
+  padding: 20px 0;  /* increase padding top/bottom */
+  
+}
+.hero-ad iframe {
+  max-width: 100% !important;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ===== HERO AD ===== -->
+<div class="hero-ad">
+  <script>
+    atOptions = {
+      'key' : 'd82837e6ef73d30133baeff24fa9651a',
+      'format' : 'iframe',
+      'height' : 60,
+      'width' : 320,
+      'params' : {}
+    };
+  </script>
+  <script src="https://www.highperformanceformat.com/d82837e6ef73d30133baeff24fa9651a/invoke.js"></script>
+</div>
+
+<div class="container">
+
+  <h1>🎵 GlobelynksMusic</h1>
+
+  <div class="card premium">
+    <h2>💳 Go Premium</h2>
+    <p>Enjoy ad-free streaming & unlimited downloads.</p>
+    <button onclick="alert('Premium coming soon!')">Upgrade Now</button>
+  </div>
+
+  <div class="card">
+    <h2>Upload Music</h2>
+    <input type="text" id="artistName" placeholder="Artist Name" />
+    <input type="text" id="songTitle" placeholder="Song Title" />
+    <input type="file" id="fileInput" accept=".mp3" />
+    <input type="file" id="imageInput" accept="image/*" />
+    <button onclick="uploadSong()">Upload</button>
+  </div>
+
+  <input type="text" id="searchInput" placeholder="🔎 Search songs..." oninput="filterSongs()" />
+
+  <div class="card">
+    <h2>📈 Top Trending</h2>
+    <ul id="trendingList"></ul>
+  </div>
+
+  <!-- Native Ad (Middle) -->
+  <div class="ad-box">
+    <h3>💰 Sponsored</h3>
+    <div id="container-88873d55faa74ee572471b8854eff736"></div>
+  </div>
+
+  <div class="card">
+    <h2>Available Music</h2>
+    <ul id="musicList"></ul>
+  </div>
+
+  <!-- Collapsible About -->
+  <div class="card" id="aboutContainer">
+    <h2 style="cursor:pointer;" onclick="toggleAbout()">ℹ️ About GlobelynksMusic ▼</h2>
+    <div id="aboutContent" style="display:none; padding-top:8px;">
+      <p>
+        GlobelynksMusic is your one-stop platform to discover, stream, and share music.
+        Upload your songs, explore trending tracks, and enjoy ad-supported or premium streaming.
+      </p>
+      <p>&copy; 2026 GlobelynksMusic. All rights reserved.</p>
+    </div>
+  </div>
+
+  <!-- Banner Ad -->
+  <div class="ad-box" id="bannerAd">
+    <h3>💰 Sponsored</h3>
+    <div id="bannerContainer"></div>
+  </div>
+
+</div> <!-- container -->
+
+<!-- Footer -->
+<footer class="footer">
+  <p>Designed with ❤️ by GlobelynksMusic Team</p>
+  <p>
+    <a href="#aboutContainer">About</a> |
+    <a href="#">Privacy Policy</a> |
+    <a href="#">Contact</a>
+  </p>
+</footer>
+
+<!-- Mini Player -->
+<div id="miniPlayer">
+  <img id="miniAlbum" src="" alt="album">
+  <span id="nowPlaying">No song playing</span>
+  <div>
+    <button onclick="prevSong()">⏮</button>
+    <button onclick="togglePlay()">▶</button>
+    <button onclick="nextSong()">⏭</button>
+  </div>
+</div>
+
+<script>
+// ========== SONGS LOGIC ==========
+const apiBase = "https://globelynksmusic.xto1971.workers.dev/api";
+let playlist = [], filteredPlaylist = [], currentIndex = 0;
+let audio = new Audio(), isPlaying = false;
+
+async function loadSongs() {
+  const res = await fetch(`${apiBase}/list`);
+  playlist = await res.json();
+
+  await Promise.all(playlist.map(async song=>{
+    return new Promise(resolve=>{
+      const tempAudio = new Audio(`${apiBase}/download?file=${song.file}`);
+      tempAudio.addEventListener("loadedmetadata", () => {
+        song.duration = tempAudio.duration;
+        resolve();
+      });
+      tempAudio.addEventListener("error", () => {
+        song.duration = 0;
+        resolve();
+      });
+    });
+  }));
+
+  filteredPlaylist = [...playlist];
+  renderSongs();
+}
+
+function formatDuration(sec) {
+  if(!sec||isNaN(sec)) return "0:00";
+  const m = Math.floor(sec/60), s=Math.floor(sec%60);
+  return `${m}:${s<10?'0':''}${s}`;
+}
+
+function renderSongs() {
+  const list = document.getElementById("musicList");
+  const trending = document.getElementById("trendingList");
+  list.innerHTML = ""; trending.innerHTML = "";
+
+  const trendingSongs = [...playlist].sort((a,b)=>b.downloads-b.downloads).slice(0,5);
+
+  trendingSongs.forEach((song,index)=>{
+    let rankClass="", rankLabel=`#${index+1}`;
+    if(index===0){ rankClass="gold"; rankLabel="👑 #1"; }
+    if(index===1){ rankClass="silver"; rankLabel="🥈 #2"; }
+    if(index===2){ rankClass="bronze"; rankLabel="🥉 #3"; }
+
+    let newTag="";
+    if(song.createdAt){
+      const diff=(Date.now()-new Date(song.createdAt))/(1000*60*60*24);
+      if(diff<=7) newTag='<span class="new-tag">NEW</span>';
+    }
+
+    const li=document.createElement("li");
+    li.innerHTML=`
+      <img class="trending-img" src="${apiBase}/image?file=${encodeURIComponent(song.image)}" onerror="this.src='https://via.placeholder.com/60x60?text=🎵'">
+      <div style="flex:1">
+        <div class="rank ${rankClass}">${rankLabel}</div>
+        <strong>${song.title}</strong> ${newTag}
+        <br>
+        <small>${song.artist} • ${formatDuration(song.duration)} • ${song.downloads} downloads</small>
+      </div>
+      <button onclick="playSongById(${song.id})">▶</button>
+    `;
+    trending.appendChild(li);
+  });
+
+  filteredPlaylist.forEach(song=>{
+    const li=document.createElement("li");
+    li.innerHTML=`
+      <img class="music-img" src="${apiBase}/image?file=${encodeURIComponent(song.image)}" onerror="this.style.display='none'">
+      <div class="music-info">
+        <h3>${song.title}</h3>
+        <p>${song.artist} • ${formatDuration(song.duration)}</p>
+        <button onclick="playSongById(${song.id})">▶ Play</button>
+        <button onclick="downloadSong('${song.file}', ${song.id})">⬇ Download</button>
+        <p>Downloads: ${song.downloads}</p>
+      </div>
+    `;
+    list.appendChild(li);
+  });
+}
+
+function playSongById(id){ const index=playlist.findIndex(s=>s.id===id); if(index!==-1) playSong(index); }
+function playSong(index){
+  currentIndex=index; const song=playlist[index];
+  audio.src=`${apiBase}/download?file=${song.file}`;
+  audio.play(); isPlaying=true;
+  document.getElementById("nowPlaying").innerText=`${song.title} - ${song.artist}`;
+  document.getElementById("miniAlbum").src=`${apiBase}/image?file=${song.image}`;
+  document.querySelector("#miniPlayer button:nth-child(2)").innerText="⏸";
+}
+
+function togglePlay(){ if(!audio.src)return; isPlaying?audio.pause():audio.play(); isPlaying=!isPlaying; document.querySelector("#miniPlayer button:nth-child(2)").innerText=isPlaying?"⏸":"▶"; }
+function nextSong(){ currentIndex=(currentIndex+1)%playlist.length; playSong(currentIndex); }
+function prevSong(){ currentIndex=(currentIndex-1+playlist.length)%playlist.length; playSong(currentIndex); }
+
+async function downloadSong(file,id){
+  await fetch(`${apiBase}/count?file=${file}`);
+  const link=document.createElement("a");
+  link.href=`${apiBase}/download?file=${file}`;
+  link.download=""; document.body.appendChild(link); link.click(); document.body.removeChild(link);
+  const idx=playlist.findIndex(s=>s.id===id); if(idx!==-1) playlist[idx].downloads++;
+  renderSongs();
+}
+
+async function uploadSong(){
+  const artist=document.getElementById("artistName").value.trim();
+  const title=document.getElementById("songTitle").value.trim();
+  const file=document.getElementById("fileInput").files[0];
+  const image=document.getElementById("imageInput").files[0];
+  if(!artist||!title||!file) return alert("Fill all fields");
+  const fd=new FormData(); fd.append("file",file); fd.append("image",image); fd.append("artist",artist); fd.append("title",title);
+  await fetch(`${apiBase}/upload`,{method:"POST", body:fd});
+  alert("Uploaded!"); loadSongs();
+}
+
+function filterSongs(){
+  const term=document.getElementById("searchInput").value.toLowerCase();
+  filteredPlaylist=playlist.filter(s=>s.title.toLowerCase().includes(term)||s.artist.toLowerCase().includes(term));
+  renderSongs();
+}
+
+loadSongs();
+
+// ========== TOGGLE ABOUT ==========
+function toggleAbout(){
+  const content=document.getElementById("aboutContent");
+  const heading=document.querySelector("#aboutContainer h2");
+  if(content.style.display==="none"){ content.style.display="block"; heading.innerText="ℹ️ About GlobelynksMusic ▲"; }
+  else { content.style.display="none"; heading.innerText="ℹ️ About GlobelynksMusic ▼"; }
+}
+
+// ========== LOAD ADS ==========
+window.addEventListener("DOMContentLoaded", ()=>{
+  // Native ad
+  const nativeScript=document.createElement("script");
+  nativeScript.async=true; nativeScript.dataset.cfasync="false";
+  nativeScript.src="https://pl28777586.effectivegatecpm.com/88873d55faa74ee572471b8854eff736/invoke.js";
+  document.getElementById("container-88873d55faa74ee572471b8854eff736").appendChild(nativeScript);
+
+  // Banner ad
+  const bannerScript=document.createElement("script");
+  bannerScript.async=true;
+  bannerScript.src="https://www.highperformanceformat.com/747a34378793d6338d3fa5b87b236c7d/invoke.js";
+  document.getElementById("bannerContainer").appendChild(bannerScript);
+
+  // atOptions for banner
+  window.atOptions = { key:'747a34378793d6338d3fa5b87b236c7d', format:'iframe', height:250, width:300, params:{} };
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+name = "globelynksmusic"
+main = "worker/index.js"
+
+# Use latest NodeJS compatibility for crypto, stream, buffer
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "mp3-storage"
+preview_bucket_name = "mp3-storage"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "globelynks_music"
+database_id = "1fe1409c-f188-4048-bc88-2e2809ca351c"
+
+[vars]
+JWT_SECRET = "super_secret_key"
+PAYSTACK_SECRET = "sk_test_472a0345ef081f0d4205fa6f27f5f449fa6a56a4"
+SITE_URL = "https://globelynksmusic.xto1971.workers.dev"
+
+routes = [
+  { pattern = "music.globelynks.com/*", zone_name = "globelynks.com" }
+]

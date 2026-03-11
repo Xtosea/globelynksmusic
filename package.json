@@ -1,0 +1,25 @@
+{
+  "name": "globelynksmusic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "wrangler": "^4.66.0"
+  },
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "jsonwebtoken": "^9.0.3",
+    "stream": "^0.0.3",
+    "util": "^0.12.5"
+  }
+}
