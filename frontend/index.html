@@ -234,7 +234,7 @@ body {
   text-align: center;
   background: #fff;
   padding: 20px 0;  /* increase padding top/bottom */
-  
+
 }
 .hero-ad iframe {
   max-width: 100% !important;
@@ -371,6 +371,7 @@ function formatDuration(sec) {
   return `${m}:${s<10?'0':''}${s}`;
 }
 
+// ========== RENDER SONGS WITH LIKE, COMMENT, SHARE ==========
 function renderSongs() {
   const list = document.getElementById("musicList");
   const trending = document.getElementById("trendingList");
@@ -411,8 +412,13 @@ function renderSongs() {
       <div class="music-info">
         <h3>${song.title}</h3>
         <p>${song.artist} • ${formatDuration(song.duration)}</p>
-        <button onclick="playSongById(${song.id})">▶ Play</button>
-        <button onclick="downloadSong('${song.file}', ${song.id})">⬇ Download</button>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">
+          <button onclick="playSongById(${song.id})">▶ Play</button>
+          <button onclick="downloadSong('${song.file}', ${song.id})">⬇ Download</button>
+          <button onclick="likeSong(${song.id}, this)">❤️ Like (${song.likes || 0})</button>
+          <button onclick="commentSong(${song.id})">💬 Comment</button>
+          <button onclick="shareSong('${song.file}')">🔗 Share</button>
+        </div>
         <p>Downloads: ${song.downloads}</p>
       </div>
     `;
@@ -420,6 +426,7 @@ function renderSongs() {
   });
 }
 
+// ========== PLAY, NEXT, PREV ==========
 function playSongById(id){ const index=playlist.findIndex(s=>s.id===id); if(index!==-1) playSong(index); }
 function playSong(index){
   currentIndex=index; const song=playlist[index];
@@ -429,11 +436,11 @@ function playSong(index){
   document.getElementById("miniAlbum").src=`${apiBase}/image?file=${song.image}`;
   document.querySelector("#miniPlayer button:nth-child(2)").innerText="⏸";
 }
-
 function togglePlay(){ if(!audio.src)return; isPlaying?audio.pause():audio.play(); isPlaying=!isPlaying; document.querySelector("#miniPlayer button:nth-child(2)").innerText=isPlaying?"⏸":"▶"; }
 function nextSong(){ currentIndex=(currentIndex+1)%playlist.length; playSong(currentIndex); }
 function prevSong(){ currentIndex=(currentIndex-1+playlist.length)%playlist.length; playSong(currentIndex); }
 
+// ========== DOWNLOAD ==========
 async function downloadSong(file,id){
   await fetch(`${apiBase}/count?file=${file}`);
   const link=document.createElement("a");
@@ -443,6 +450,7 @@ async function downloadSong(file,id){
   renderSongs();
 }
 
+// ========== UPLOAD ==========
 async function uploadSong(){
   const artist=document.getElementById("artistName").value.trim();
   const title=document.getElementById("songTitle").value.trim();
@@ -454,12 +462,37 @@ async function uploadSong(){
   alert("Uploaded!"); loadSongs();
 }
 
+// ========== SEARCH ==========
 function filterSongs(){
   const term=document.getElementById("searchInput").value.toLowerCase();
   filteredPlaylist=playlist.filter(s=>s.title.toLowerCase().includes(term)||s.artist.toLowerCase().includes(term));
   renderSongs();
 }
 
+// ========== LIKE, COMMENT, SHARE ==========
+async function likeSong(id, btn){
+  const res = await fetch(`${apiBase}/like?id=${id}`, { method:'POST' });
+  if(res.ok){
+    const data = await res.json();
+    btn.innerText = `❤️ Like (${data.likes})`;
+  } else { alert("Failed to like"); }
+}
+
+function commentSong(id){
+  const comment = prompt("Enter your comment:");
+  if(!comment) return;
+  alert(`Comment submitted: "${comment}" for song ID ${id}`);
+  // Optional: POST to /api/comment later
+}
+
+function shareSong(file){
+  const shareURL = `${apiBase}/download?file=${file}`;
+  if(navigator.share){
+    navigator.share({ title:"Check out this song!", url:shareURL }).catch(err=>console.log(err));
+  } else { prompt("Copy this link to share:", shareURL); }
+}
+
+// ========== INITIAL LOAD ==========
 loadSongs();
 
 // ========== TOGGLE ABOUT ==========
