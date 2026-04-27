@@ -263,10 +263,32 @@ body {
       'width' : 320,
       'params' : {}
     };
+
+
+  #installContainer {
+  position: fixed;
+  bottom: 80px;
+  right: 15px;
+  z-index: 999;
+}
+
+#installBtn {
+  background: linear-gradient(45deg, gold, orange);
+  color: black;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  display: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
   </script>
   <script src="https://www.highperformanceformat.com/d82837e6ef73d30133baeff24fa9651a/invoke.js"></script>
-</div>
 
+
+</div>
 <div class="container">
 
   <h1>🎵 GlobelynksMusic</h1>
@@ -572,6 +594,12 @@ if ("serviceWorker" in navigator) {
 
 </script>
 
+
+<div id="installContainer">
+  <button id="installBtn">
+    📲 Install App
+  </button>
+</div>
 
 </body>
 </html>
