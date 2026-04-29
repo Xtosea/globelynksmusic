@@ -1,29 +1,26 @@
 {
   "name": "globelynksmusic",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "devDependencies": {
-    "wrangler": "^4.66.0"
-  },
   "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
     "buffer": "^6.0.3",
     "jsonwebtoken": "^9.0.3",
-    "react-script": "^2.0.5",
     "stream": "^0.0.3",
     "util": "^0.12.5",
     "workbox-precaching": "^7.4.0",
     "workbox-routing": "^7.4.0",
     "workbox-strategies": "^7.4.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.66.0"
   }
 }
